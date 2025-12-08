@@ -52,11 +52,16 @@ string operator*(string s, long long m)
 
 int main()
 {
-	string sp, is; 
+	string s, is; 
 	long long minus, a, b, n, m, l, r, ml, mr, num, sum = 0;
 	unordered_set<long long> seen;
 
-	while (cin >> sp) // read in each line
+	cin >> s;
+
+	auto splitview = views::split(s, ',')
+					| views::transform([](auto&& x){ return string(x.begin(), x.end()); });
+
+	for (auto sp : splitview) // read in each line
 	{
 		// get range a-b
 		minus = sp.find('-');

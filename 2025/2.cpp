@@ -37,10 +37,14 @@ long long pow10(long long n)
 
 int main()
 {
-	string sp, is; 
+	string s, is; 
+	cin >> s;
 	long long minus, a, b, n, m, l, r, num, sum = 0;
 
-	while (cin >> sp)
+	auto splitview = views::split(s, ',')
+					| views::transform([](auto&& x){ return string(x.begin(), x.end()); });
+
+	for(auto sp : splitview)
 	{
 		minus = sp.find('-');
 		a = stoll(sp.substr(0, minus));
