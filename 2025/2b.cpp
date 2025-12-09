@@ -13,8 +13,6 @@ using namespace std;
 	Invalid IDs are made of a number repeated AT LEAST twice, or that start with 0
 */
 
-static int debug = 2;
-
 long long pow10(long long n)
 {
 	long long r = 1;
@@ -27,6 +25,17 @@ string operator*(string s, long long m)
 	string out = "";
 	for(int i = 0; i < m; i++) out += s;
 	return out;
+}
+
+void checkNum(long long candidate, long long mult, long long a, long long b, long long& sum, unordered_set<long long>& seen)
+{
+	string is = to_string(candidate);
+	long long num = stoll(is * mult);
+	if (num >= a && num <= b)
+	{
+		auto result = seen.insert(num);
+		if(result.second) sum += num;
+	}
 }
 
 int main()
@@ -51,8 +60,6 @@ int main()
 		n = minus;
 		m = sp.size() - minus - 1; 
 
-		if(debug > 1) cout << format("sp = {}, minus = {}, a = {}, b = {}, n = {}, m = {}", sp, minus, a, b, n, m) << endl;
-
 		// check repeated strings of length 1..m/2
 		for (long long div = 1; div <= m/2; div++)
 		{
@@ -74,58 +81,14 @@ int main()
 			// case where mr > ml has to be handled differently since we can have l > r
 			if(ml == mr)
 			{
-				for(long long i = l; i <= r; i++)
-				{
-					is = to_string(i);
-					num = stoll(is * ml);
-					if (num >= a && num <= b)
-					{
-						auto result = seen.insert(num);
-						if(result.second) 
-						{
-							sum += num;
-							if(debug > 0) cout << format("div = {}, l = {}, ml = {}, r = {}, mr = {}, num = {}", div, l, ml, r, mr, num) << endl;
-						}
-					}
-				}
+				for(long long i = l; i <= r; i++) checkNum(i, ml, a, b, sum, seen);	
 			}
 			else if(mr > ml)
 			{
 				// causes issues when n = 1 and ml = 1
-				if(ml > 1)
-				{
-					for(long long i = l; i < pow10(div); i++)
-					{
-						is = to_string(i);
-						num = stoll(is * ml);
-						if (num >= a && num <= b)
-						{
-							auto result = seen.insert(num);
- 							if(result.second) 
-							{
-								sum += num;
-								if(debug > 0) cout << format("div = {}, l = {}, ml = {}, r = {}, mr = {}, num = {}", div, l, ml, r, mr, num) << endl;
-							}
-						}
-					}
-				}
-			
-				for(long long i = r; i >= pow10(div-1); i--)
-				{
-					is = to_string(i);
-					num = stoll(is * mr);
-					if (num >= a && num <= b)
-					{
-						auto result = seen.insert(num);
- 						if(result.second) 
-						{
-							sum += num;
-							if(debug > 0) cout << format("div = {}, l = {}, ml = {}, r = {}, mr = {}, num = {}", div, l, ml, r, mr, num) << endl;
-						}
-					}
-				}
+				if(ml > 1) for(long long i = l; i < pow10(div); i++) checkNum(i, ml, a, b, sum, seen);			
+				for(long long i = r; i >= pow10(div-1); i--) checkNum(i, mr, a, b, sum, seen);	
 			}
-			
 		}
 	}
 

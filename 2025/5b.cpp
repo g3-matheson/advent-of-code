@@ -33,13 +33,15 @@ int main()
 			ll a1 = i1.first, b1 = i1.second;
 			ll a2 = i2.first, b2 = i2.second;
 
-			if(a1 <= a2 && b2 <= b1) skip[j] = true; // i2 is inside of or equal to i1
-			else if(a2 <= a1 && b1 < b2) skip[i] = true; 	 // i1 is inside of i2
+			if(a1 <= a2 && b2 <= b1) 		skip[j] = true; 	// i2 is inside of i1
+			else if(a2 <= a1 && b1 <= b2) 	skip[i] = true; 	// i1 is inside of i2
+			
 			/*
 				|__i__|
 				  |__j__|
 			*/
 			else if(a1 < a2 && a2 <= b1 && b1 < b2) intervals[i].second = a2-1;
+			
 			/*
 				   |__i__|
 				|__j__|
