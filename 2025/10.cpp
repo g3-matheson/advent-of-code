@@ -7,8 +7,6 @@
 using namespace std;
 using ll = long long;
 
-static bool debug = true;
-
 /*
 	Input: [.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
 	[light diagram] (button wiring schematics) {joltage requirements}
@@ -35,10 +33,7 @@ string base2(int n, int l)
 		n /= 2;
 	}
 
-	while(s.size() < l)
-	{
-		s = "0" + s;
-	}
+	while(s.size() < l) s = "0" + s; // pad with 0s for toggles
 	return s;
 }
 
@@ -47,12 +42,8 @@ void pressButton(const vector<vector<int>>& buttons, int pushed, vector<bool>& l
 	for(int i = 0; i < buttons[pushed].size(); i++) lights[buttons[pushed][i]] = !lights[buttons[pushed][i]];
 }
 
-int main()
+void getInput(auto& lights, auto& buttons)
 {
-	int n = 171;
-	vector<vector<bool>> lights = vector<vector<bool>>(n);
-	vector<vector<vector<int>>> buttons = vector<vector<vector<int>>>(n);
-
 	string s;
 	int count = 0;
 	while(getline(cin, s))
@@ -78,10 +69,18 @@ int main()
 
 			i = s.find('(', i+1);
 		}
-
 		count++;
 	}
+}
 
+int main()
+{
+	int n = 171;
+	vector<vector<bool>> lights = vector<vector<bool>>(n);
+	vector<vector<vector<int>>> buttons = vector<vector<vector<int>>>(n);
+
+	getInput(lights, buttons);
+	
 	int presses, combinations, totalPresses = 0;
 	for(int i = 0; i < lights.size(); i++)
 	{
