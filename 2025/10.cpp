@@ -5,7 +5,6 @@
 #include <vector>
 
 using namespace std;
-using ll = long long;
 
 /*
 	Input: [.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
@@ -51,7 +50,6 @@ void getInput(auto& lights, auto& buttons)
 		for(auto c : s.substr(1, s.find(']')-1)) lights[count].push_back(c == '.' ? false : true);	
 
 		auto i = s.find('(');
-		int buttonCount = 0;
 		while(i != string::npos)
 		{
 			auto j = s.find(')', i);
