@@ -29,11 +29,13 @@ int main()
 
 	while(getline(cin, s))
 	{
-		vector<string> mults = s.substr(0, s.find(':')) | views::split('x') | views::transform([](auto&& x){ return string(x.begin(), x.end()); }) | ranges::to<vector>();
+		vector<string> mults = s.substr(0, s.find(':')) 
+					| views::split('x') 
+					| views::transform([](auto&& x){ return string(x.begin(), x.end()); }) 
+					| ranges::to<vector>();
 		ll constraint = (stoll(mults[0]) * stoll(mults[1]));
 
 		ll product = 0;
-		
 		int index = s.find(':')+2; 
 		for(int i = 0; i < 6; i++)
 		{
@@ -41,7 +43,7 @@ int main()
 			index += 3;
 		}	
 
-		if (product < constraint) count++;
+		if (product <= constraint) count++;
 	}
 
 	cout << count << endl;
